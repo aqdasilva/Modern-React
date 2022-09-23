@@ -7,12 +7,12 @@ constructor(props) {
     super(props);
 
     //only time we do direct assignment to this.state
-    this.state = {lat: null};
+    this.state = {lat: null, long: null};
 
     window.navigator.geolocation.getCurrentPosition(
         (position) => {
             //we called set state here to update
-            this.setState({lat: position.coords.latitude });
+            this.setState({lat: position.coords.latitude, long:position.coords.longitude});
         },
         (err) => console.log(err)
     );
@@ -21,7 +21,8 @@ constructor(props) {
 
     //React says we have to render !!!!!!
     render() {
-        return <div>Latitude: {this.state.lat}</div>;
+        return <div>Latitude: {this.state.lat}<br></br> Longitude: {this.state.long}</div>;
+
     }
 }
 
