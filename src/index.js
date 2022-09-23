@@ -1,25 +1,19 @@
-import { render } from "@testing-library/react";
 import React from "react";
 import  ReactDOM  from "react-dom";
+import SeasonsDisplay from "./SeaonDisplay";
 
 class App extends React.Component{
-constructor(props) {
-    super(props);
+    state = { lat: null, errorMessage: ''};
 
-    //only time we do direct assignment to this.state
-    this.state = {lat: null, long: null, errorMessage: ''};
 
-    window.navigator.geolocation.getCurrentPosition(
-        (position) => {
-            //we called set state here to update
-            this.setState({lat: position.coords.latitude, long:position.coords.longitude});
-        },
-        (err) => {
-            this.setState({errorMessage: err.message});
-        }
-    );
-}
-
+    componentDidMount() {
+        window.navigator.geolocation.getCurrentPosition(
+            (position) => this.setState({lat: position.coords.latitude, long:position.coords.longitude})
+            ,
+            (err) => this.setState({errorMessage: err.message})
+            
+        );
+    }
 
     //React says we have to render !!!!!!
     render() {
@@ -27,7 +21,7 @@ constructor(props) {
             return <div>Error: {this.state.errorMessage} </div>
         }
         if (!this.state.errorMessage && this.state.lat) {
-            return <div>Latitude: {this.state.lat}</div>
+            return <SeasonsDisplay lat={this.state.lat} />
         }
 
         return <div>Loading! </div>;
